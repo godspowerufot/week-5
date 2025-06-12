@@ -1,34 +1,47 @@
- 
+# 🥊 PvP DeFi Battles – “Battle of the Pools”
 
-```markdown
-# Week 5: Raydium Composability Library - DeFi Yield Aggregator Use Case
+> A gamified DeFi system leveraging the Raydium Composability Library on `neondevnet`.
+
+---
 
 ## ✅ Overview
 
-This week involved exploring the Raydium composability library deployed on `neondevnet`, analyzing its core primitives, and developing a creative DeFi use case.
+This project explores the **Raydium composability library** and implements a creative use case: **PvP DeFi Battles**, where users compete in liquidity provision and swap activity to earn rewards.
 
-After testing and deploying the library scripts, I designed a gamified DeFi system called:
-
-> ## 🥊 PvP DeFi Battles – “Battle of the Pools”
-
-It leverages Raydium’s AMM and composability instructions to allow users to **create competing liquidity pools**, **battle via swap activity or fees**, and **win pooled rewards or NFTs** after a 7-day epoch.
+Users create isolated Raydium-style AMM pools with identical token pairs, battle over 7-day epochs, and winners are rewarded with fees and NFTs.
 
 ---
 
 ## 📦 Deployment Summary
 
-| Parameter | Value |
-|----------|-------|
-| Network | `neondevnet` |
-| NEON Airdrop | ✅ 100 NEON to `0x20Ba8169cF3833B13B2943C760A2449Dbf56d55E` |
-| Deployer | `0xAaA11D5b2873af87c887CaaBE05109e903F1be6a` |
-| Balance | `4210.71 NEON` |
-| Contract | `CallRaydiumProgram` |
-| EVM Address | `0x445E1b09649ee3E30dD83f5071F5d61636D094f9` |
-| Token A (SPL) | `BTzkZLY1GmgFwLff2AyfyGfjbPLLQJKJtkrQAPQwuKf6` |
-| Token B (WSOL) | `So11111111111111111111111111111111111111112` |
-| ATA | `H5kUgSCo5UuhqV62LRTyhwCmJpsuQHotM5YUVMhD9Sm2` |
-| Program | `LibRaydiumProgram` |
+- **Network**: `neondevnet`
+- **Deployer Address**: `0xAaA11D5b2873af87c887CaaBE05109e903F1be6a`
+- **Deployer NEON Balance**: `5292.06 NEON`
+- **Airdrop**: 100 NEON to `0x387bBE9fbeFA0864C93967fF0Db4fF4f3102922e`
+
+### 🔹 Contract Deployment
+
+| Parameter     | Value                                                              |
+|--------------|--------------------------------------------------------------------|
+| Contract      | `CallRaydiumProgram`                                               |
+| Contract Address | `0x92725f157042D1F1b2Df37eA4888Fc150724D00d`                  |
+| EVM Address   | `0x445E1b09649ee3E30dD83f5071F5d61636D094f9`                       |
+| Token A       | `BTzkZLY1GmgFwLff2AyfyGfjbPLLQJKJtkrQAPQwuKf6`                     |
+| Token B (WSOL)| `So11111111111111111111111111111111111111112`                     |
+| ATA           | `H5kUgSCo5UuhqV62LRTyhwCmJpsuQHotM5YUVMhD9Sm2`                     |
+| Program       | `LibRaydiumProgram`                                               |
+| Balance       | `4210.71 NEON`                                                    |
+
+### 🧾 Transactions
+
+- **Create Pool**: `0x4c9b2093cea56f086f6e5ae9b212df608432b3bcb3c42cb81da940ea86cc8716`
+- **Add Liquidity**: `0x8b7946df5954efc0fd7f6cc28bc633cff1906da1552cbf71074164986897aba1`
+- **Withdraw Liquidity**: `0x8e48887cadbad7326876972037c437c2f46d4f2dfd6fc7f72da54f872e6b779d`
+- **Lock Liquidity (with metadata)**: `0x6a69f65be5e721981646a746ed727b418d584d230ef30e718abdb988cc6ed515`
+- **Lock Liquidity (without metadata)**: `0x83eef9adef1beaa9971883e95b3b12fba44aac213af23d3d8263406e78397bf8`
+- **Swap Input**: `0x613a89550a608ddd7be1a1e6a86350817d5783b64e35a68708032ae709bf0aa9`
+- **Swap Output**: `0x1055d88c16f9f0f3f1e9edc0888a24ce202240a0f6a368f73417e6ee07e36ba8`
+- **Collect Fees**: `0x56523e2f11b02188164fd45abd5aa120fc28fe00459b5eb78300ff606cea7993`
 
 ---
 
@@ -36,103 +49,81 @@ It leverages Raydium’s AMM and composability instructions to allow users to **
 
 ### 📘 Concept
 
-Two (or more) users create identical token-pair liquidity pools on Raydium. Over the course of 7 days, users compete to generate:
+Two (or more) users create **identical token-pair liquidity pools** on Raydium. Over a 7-day epoch, participants compete by generating:
 
-- 🌀 Highest swap volume  
-- 💰 Highest accumulated fees  
-- 🧠 Most strategic liquidity moves
+- 🌀 Highest **swap volume**  
+- 💰 Highest **accumulated fees**  
+- 🧠 Most **strategic liquidity actions**
 
-At the end of the epoch, the **winning pool** earns **fee rewards** from both pools and participants can be rewarded with **battle trophies (NFTs)**.
+At the end of the epoch:
+- The **winning pool** earns rewards from both pools
+- LPs in the winning pool receive NFTs or boosted returns
 
 ---
 
 ## 🛠 Instructions Used (Raydium Composability)
 
-| Instruction | Purpose |
-|-------------|---------|
-| `createPoolInstruction` | Deploy isolated Raydium-style AMM pools for Token A/B |
-| `addLiquidityInstruction` | Users add liquidity to their pool to compete |
-| `swapInputInstruction` | Generates swap volume and trading activity |
-| `collectFeesInstruction` | Track performance and fees |
-| `withdrawLiquidityInstruction` | Exit the pool post-competition |
+| Instruction               | Purpose                                                  |
+|---------------------------|----------------------------------------------------------|
+| `createPoolInstruction`   | Deploy new isolated AMM pool                             |
+| `addLiquidityInstruction` | Add liquidity to the battle pool                         |
+| `swapInputInstruction`    | Enable users to trade and generate volume                |
+| `collectFeesInstruction`  | Track total earned fees per pool                         |
+| `withdrawLiquidityInstruction` | Exit liquidity position                           |
+| `lockLiquidityInstruction` | Lock LP tokens and optionally attach metadata           |
 
 ---
+## Illustration of the pvp Defi Battles
+### 🧭 Flow Diagram
+
+![PvP DeFi Battle Flow](./assets/image.png)
 
 ## 🔄 Technical Workflow
 
-1. **Pool Creation**
-   - User A and User B both call `createPoolInstruction` for the same token pair (e.g., WSOL/USDC).
-   - These create isolated LP pools with separate fee tracking.
+1. **Pool Creation**  
+   Users A & B both call `createPoolInstruction` with the same token pair (e.g., WSOL/USDC).
 
-2. **Liquidity Phase**
-   - Participants use `addLiquidityInstruction` to contribute tokens to either pool.
+2. **Liquidity Phase**  
+   Users call `addLiquidityInstruction` to contribute liquidity.
 
-3. **Activity Phase (7 days)**
-   - Swaps happen via `swapInputInstruction` on each pool.
-   - Fees accumulate based on trading activity.
-   - Optional: Use bots to simulate arbitrage or user activity.
+3. **Battle Phase (7 Days)**  
+   - Users or bots generate swap activity via `swapInputInstruction`.
+   - Fees are accumulated.
 
-4. **Evaluation Phase**
-   - After 7 days, compare the result of `collectFeesInstruction` from both pools:
-     - Pool with higher volume or fees is declared winner.
+4. **Evaluation Phase**  
+   - Use `collectFeesInstruction` to determine which pool performed better.
 
-5. **Reward Distribution**
-   - Winner pool's fees can be distributed to its LP providers.
-   - Bonus NFT minted for LPs in the winning pool using `lockLiquidityInstruction`.
+5. **Reward Distribution**  
+   - Fees from both pools go to the winning pool LPs.
+   - NFTs awarded via `lockLiquidityInstruction` with metadata.
 
 ---
 
 ## 🧩 Optional Features
 
-- **NFT Trophy Minting:**
-  - Winning LPs can mint a Raydium-backed NFT showing victory stats.
-  - `lockLiquidityInstruction` with metadata (pool address, epoch, rank)
+- 🏆 **NFT Trophy Minting**  
+  - Mint a battle trophy NFT for LPs in the winning pool
 
-- **Leaderboard / Stats UI:**
-  - Show pool performance metrics over time: TVL, APR, swaps
+- 📊 **Battle Dashboard**  
+  - Visualize TVL, APR, swap activity, and leaderboard
 
-- **Epoch DAO Voting:**
-  - Governance for pool parameters or fee multiplier boosts.
+- 🗳 **Epoch DAO Voting**  
+  - Community vote to adjust parameters (e.g., epoch duration, reward boost)
 
-- **Battle History:**
-  - View past winners and top liquidity providers.
+- 🧾 **Battle History Archive**  
+  - View previous battle stats, winners, and top LPs
 
 ---
 
 ## 🧠 Benefits
 
-- **Gamified DeFi**: Drives more user engagement into AMMs through competition.
-- **Fair Ground**: Pools are isolated but use the same tokens — performance is all strategy.
-- **Scalable**: Works with any token pair supported by Raydium.
+- 🎮 **Gamified Yield Farming**: Attracts DeFi users through competition  
+- ⚖️ **Fair Strategy Grounds**: Identical tokens but isolated pools  
+- 🌱 **Extensible**: Works across all Raydium-supported token pairs
 
 ---
 
 ## 📌 Conclusion
 
-The PvP DeFi Battle system is a creative application of Raydium’s composability primitives. By combining AMM liquidity, isolated pools, and token incentives, it introduces a new **competitive dimension** to yield farming and community participation.
+The **PvP DeFi Battles** project presents a fresh take on DeFi by merging **AMM mechanics**, **competitive gameplay**, and **NFT rewards** using Raydium's composable primitives.
 
-> This is a strong foundation for building more gamified, modular DeFi experiences on top of Raydium + Neon EVM.
-
----
-
-## 📁 Files (Recommended)
-
-```
-
-/raydium-battle/
-├── contracts/
-│   └── BattlePoolFactory.sol
-├── scripts/
-│   └── deployPools.ts
-│   └── monitorBattle.ts
-├── frontend/
-│   └── index.tsx
-│   └── BattleDashboard.tsx
-├── README.md
-
-```
-
----
-
-
----
